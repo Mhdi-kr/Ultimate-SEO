@@ -1,11 +1,11 @@
 const fs = require('fs')
 const BeautifulDom = require('beautiful-dom');
 
-export class UltimateSEO {
+export class SeoAnalyzer {
     private buffer: string
     private dom
     private readonly Metric: {
-        viewport: boolean
+        viewport: boolean 
         title: boolean
     }
     constructor(src: string) {
@@ -54,8 +54,8 @@ export class UltimateSEO {
             }
         }
         const score = Math.floor(sumOfScores/size*100)
-        console.log('analysis finished with a score of: %', score)
+        console.log('analysis completed with a score of: %', score)
     }
 }
 
-new UltimateSEO('index.html')
+new SeoAnalyzer('index.html')

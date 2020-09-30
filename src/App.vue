@@ -7,7 +7,7 @@
 
 <script>
 import fs from 'fs'
-import { hello } from './scripts/ultimateSEO.ts'
+import { hello } from './scripts/seoAnalyzer.ts'
 
 export default {
   name: 'App',
