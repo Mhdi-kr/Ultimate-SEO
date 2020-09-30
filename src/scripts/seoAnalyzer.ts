@@ -3,6 +3,7 @@ const BeautifulDom = require('beautiful-dom');
 
 export class SeoAnalyzer {
     private buffer: string
+    private score: number
     private dom
     private readonly Metric: {
         viewport: boolean 
@@ -45,7 +46,7 @@ export class SeoAnalyzer {
             this.Metric.title = false
         }
     }
-    private finalize(){
+    private computeScore(){
         const size = Object.keys(this.Metric).length;
         let sumOfScores = 0
         for (let metric in this.Metric){
@@ -53,9 +54,12 @@ export class SeoAnalyzer {
                 sumOfScores++
             }
         }
-        const score = Math.floor(sumOfScores/size*100)
-        console.log('analysis completed with a score of: %', score)
+        this.score = Math.floor(sumOfScores / size * 100)
     }
+    private finalize(){
+        console.log('analysis completed with a score of: %', this.score)
+    }
+
 }
 
 new SeoAnalyzer('index.html')
