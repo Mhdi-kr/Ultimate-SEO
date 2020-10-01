@@ -1,0 +1,21 @@
+- Has a <meta name="viewport"> tag with width or initial-scale
++ Document has a <title> element
+    • Best between 50–60 characters
+    • Important keywords near the beginning
+    • Well-written descriptions influence
+- click-through rates (CTR)
+- Document has a meta description
+- Links have descriptive texT
+- Image elements have [alt] attributes
+- Document has a valid hreflang
+- Document uses legible font sizes
+- WARN only one h1 tag and keep heiarchical strucutre
+- ! SUGGEST Keyword in URL, title, description, body. Check readability.
+- check SSL cert
+- Make sure there's no duplicate content or set up canonical meta tags.
+- Check your robots.txt and make sure you allow indexing.
+- Generate a sitemap page listing all links and submit 
+- Check loading speed
+- Add social share buttons, Facebook like.
+- Enable commenting, rating and other user interactions.
+- Build responsive design
