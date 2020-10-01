@@ -1,19 +1,17 @@
 <template>
   <div id="app">
-    <p>{{ idea }}</p>
-    <p> {{ buffer }}</p>
+      <p>welcome to this application</p>
   </div>
 </template>
 
 <script>
 import fs from 'fs'
-import { hello } from './scripts/seoAnalyzer.ts'
 
 export default {
   name: 'App',
   data: () => {
     return {
-      idea: hello()
+
     }
   },
 }
