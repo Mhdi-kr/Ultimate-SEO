@@ -1,5 +1,18 @@
 const fs = require('fs')
 const BeautifulDom = require('beautiful-dom');
+const s = `<h1 class="google"></h1>`;
+
+export function getAttribute(str: string, attr: string){
+    let initialIndex = str.lastIndexOf(attr) + attr.length + 2
+    let finalIndex
+    for (let i = initialIndex; i<str.length; i++){
+        if (str[i]==='"'){
+            finalIndex = i
+            break
+        }
+    }
+    return str.slice(initialIndex, finalIndex)
+}
 
 export class SeoAnalyzer {
     private buffer: string
@@ -29,15 +42,15 @@ export class SeoAnalyzer {
         this.dom = new BeautifulDom(this.buffer)
     }
     private analyze() {
-        this.hasViewportMeta()
+        this.checkMetaTags()
         this.hasTitle()
     }
-    hasViewportMeta(){
+    private checkMetaTags(){
         for (let i of this.dom.getElementsByTagName('meta')){
-            console.log(i.outerHTML)
+
         }
     }
-    hasTitle(){
+    private hasTitle(){
         if (this.dom.getElementsByTagName('title').length > 0){
             console.log("source code includes title tag")
             this.Metric.title = true
@@ -55,11 +68,21 @@ export class SeoAnalyzer {
             }
         }
         this.score = Math.floor(sumOfScores / size * 100)
-    }
-    private finalize(){
         console.log('analysis completed with a score of: %', this.score)
     }
+    private finalize(){
+        this.computeScore()
+        this.exportJsonReport()
+    }
+    private exportJsonReport(){
+        console.log('generating JSON repeort ...')
+        let result = {
 
+        }
+        let json = JSON.stringify(result)
+        fs.writeFileSync('result.json',json)
+        console.log('JSON report generated.')
+    }
 }
 
 new SeoAnalyzer('index.html')
