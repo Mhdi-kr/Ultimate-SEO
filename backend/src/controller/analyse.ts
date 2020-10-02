@@ -1,14 +1,20 @@
 import {RequestHandler} from "express";
+import {SeoAnalyzer} from "../../../Core/seoAnalyzer";
 
 class AnalyseController {
 
-    test: RequestHandler = (req, res) => {
+    test: RequestHandler = async (req, res) => {
 
-        res.status(200).send({
-            res: "hello"
-        });
-    };
+        const {input} = req.body;
 
+        try {
+            const result = new SeoAnalyzer(input);
+            res.status(200).send({
+                res: result.score
+            })
+        } catch (e) {
+            res.status(400).send(e);
+        }
+    }
 }
-
 export default new AnalyseController();
