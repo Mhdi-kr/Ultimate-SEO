@@ -14,7 +14,6 @@
             <div class="columns">
               <div class="column">
                 <file-reader @load="text = $event"></file-reader>
-
               </div>
               <div class="column">
                 <analyze-btn />

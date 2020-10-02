@@ -1,6 +1,4 @@
-const fs = require('fs')
-const BeautifulDom = require('beautiful-dom');
-const s = `<h1 class="google"></h1>`;
+import BeautifulDom from "beautiful-dom";
 
 export function getAttribute(str: string, attr: string){
     let initialIndex = str.lastIndexOf(attr) + attr.length + 2
@@ -14,17 +12,21 @@ export function getAttribute(str: string, attr: string){
     return str.slice(initialIndex, finalIndex)
 }
 
+export interface Metrics {
+    viewport: boolean
+    title: boolean
+}
 export class SeoAnalyzer {
     private buffer: string
-    private score: number
-    private dom
-    private readonly Metric: {
-        viewport: boolean 
-        title: boolean
-    }
+    private _score: number
+    private dom = new BeautifulDom('')
+    private readonly metricsObj : Metrics
+
     constructor(src: string) {
         //init
-        this.Metric = {
+        this.buffer = ''
+        this._score = 0
+        this.metricsObj = {
             viewport: false,
             title: false
         }
@@ -36,7 +38,7 @@ export class SeoAnalyzer {
         this.finalize()
     }
     private readSourceFile(src: string){
-        this.buffer = fs.readFileSync( src ,'utf8')
+        this.buffer = src
         console.log('String read from input HTML file:\n',this.buffer)
         // loads the file onto the beautiful-dom object
         this.dom = new BeautifulDom(this.buffer)
@@ -53,22 +55,24 @@ export class SeoAnalyzer {
     private hasTitle(){
         if (this.dom.getElementsByTagName('title').length > 0){
             console.log("source code includes title tag")
-            this.Metric.title = true
+            this.metricsObj.title = true
         } else {
             console.log('source code does not include title tag')
-            this.Metric.title = false
+            this.metricsObj.title = false
         }
     }
     private computeScore(){
-        const size = Object.keys(this.Metric).length;
+        const size = Object.keys(this.metricsObj).length;
         let sumOfScores = 0
-        for (let metric in this.Metric){
-            if (this.Metric[metric]){
+        for (let metric in this.metricsObj){
+            // @ts-ignore
+            // TODO fix this part
+            if (this.metricsObj[metric]){
                 sumOfScores++
             }
         }
-        this.score = Math.floor(sumOfScores / size * 100)
-        console.log('analysis completed with a score of: %', this.score)
+        this._score = Math.floor(sumOfScores / size * 100)
+        console.log('analysis completed with a score of: %', this._score)
     }
     private finalize(){
         this.computeScore()
@@ -76,13 +80,11 @@ export class SeoAnalyzer {
     }
     private exportJsonReport(){
         console.log('generating JSON repeort ...')
-        let result = {
-
-        }
+        let result = this._score
         let json = JSON.stringify(result)
-        fs.writeFileSync('result.json',json)
         console.log('JSON report generated.')
     }
+    get score(): number {
+        return this._score;
+    }
 }
-
-new SeoAnalyzer('index.html')

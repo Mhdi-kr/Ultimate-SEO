@@ -15,7 +15,7 @@
       analyze(){
         console.log('hello!')
         this.isLoading = true
-        fetch('https://jsonplaceholder.typicode.com/posts/')
+        fetch('www.dumas.ir:3000/analyze')
             .then(response => response.json())
             .then(json => {
               console.log(json)
