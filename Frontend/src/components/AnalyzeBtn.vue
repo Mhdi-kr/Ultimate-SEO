@@ -4,8 +4,12 @@
   </div>
 </template>
 <script>
-  export default {
+let code;
+export default {
     name: 'analyzeBtn',
+    props: {
+      code
+    },
     data: () => {
       return {
         isLoading: false,
@@ -13,13 +17,26 @@
     },
     methods: {
       analyze(){
-        console.log('hello!')
         this.isLoading = true
-        fetch('www.dumas.ir:3000/analyze')
-            .then(response => response.json())
-            .then(json => {
-              console.log(json)
-              this.isLoading = false
+        console.log('this is what is being sent to backend:',this.code)
+        fetch('http://www.dumas.ir:8082/analyse', {
+          method: 'post',
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            input: this.code
+          })
+        }).then( (data) => {
+          return data.json()
+        }).then((res)=>{
+          console.log(res.res)
+          this.$emit('fetchComplete', res.res)
+          this.isLoading = false
+        })
+            .catch((error) => {
+              console.log('Request failure: ', error);
             })
       }
     }

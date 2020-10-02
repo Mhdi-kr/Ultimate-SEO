@@ -16,9 +16,10 @@
                 <file-reader @load="text = $event"></file-reader>
               </div>
               <div class="column">
-                <analyze-btn />
+                <analyze-btn :code="text" @fetchComplete="fetchRequest($event)"/>
               </div>
             </div>
+            <result :res="res"></result>
           </div>
         </div>
       </section>
@@ -39,20 +40,26 @@
 import fileReader from './components/FileReader.vue'
 import codeBlock from './components/CodeBlock.vue'
 import AnalyzeBtn from "@/components/AnalyzeBtn.vue";
+import result from "@/components/result";
 
 export default {
   name: 'App',
   components: {
     fileReader,
     codeBlock,
-    AnalyzeBtn
+    AnalyzeBtn,
+    result
   },
   data: () => {
     return {
-      text:''
+      text:'',
+      res: '',
     }
   },
   methods: {
+    debug(res){
+      console.log('the score is', res)
+    },
     loadTextFromFile(ev) {
       let reader = new FileReader()
       reader.onload = (event) => {
@@ -60,8 +67,8 @@ export default {
       }
       reader.readAsText(ev)
     },
-    analyze(){
-
+    fetchRequest(res){
+      this.res = res
     }
   }
 }
