@@ -5,7 +5,8 @@ import AnalyseController from "../controller/analyse";
 const analyseRouter = Router();
 
 
-analyseRouter.post("/", AnalyseController.test);
+analyseRouter.post("/", AnalyseController.analyse);
+
 
 
 export default analyseRouter;

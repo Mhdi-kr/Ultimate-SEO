@@ -19,7 +19,7 @@ export interface Metrics {
 export class SeoAnalyzer {
     private buffer: string
     private _score: number
-    private dom = new BeautifulDom('')
+    private dom: any
     private readonly metricsObj : Metrics
 
     constructor(src: string) {
